@@ -1,0 +1,23 @@
+<div>
+    <h2>Currency Converter</h2>
+
+    <div>
+        <label for="date">Date:</label>
+        <input type="date" id="date" [(ngModel)]="date">
+    </div>
+
+    <div>
+        <label for="symbols">Symbols (comma-separated):</label>
+        <input type="text" id="symbols" [(ngModel)]="symbols">
+    </div>
+
+    <button (click)="convertCurrency()">Convert Currency</button>
+
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <div *ngIf="conversionResult">
+        <h3>Conversion Result:</h3>
+        <div *ngFor="let rate of conversionResult.rates | keyvalue">
+            <p>{{ rate.key }}: {{ rate.value }}</p>
+        </div>
+    </div>
+</div>
