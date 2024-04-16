@@ -1,20 +1,28 @@
-<div>
-    <h2>Currency Converter</h2>
+<div class="converter-container">
+    <div class="converter-card">
+        <h2>Base Currency: USD</h2>
+        <div class="input-group">
+            <label for="date">Date:</label>
+            <input type="date" id="date" max="{{getMaxDate()}}" [(ngModel)]="date">
+        </div>
 
-    <div>
-        <label for="date">Date:</label>
-        <input type="date" id="date" [(ngModel)]="date">
+        <div class="input-group">
+            <label for="symbols">Currency Symbols (multi-comma-separated):</label>
+            <!-- Autocomplete input with dynamic suggestions -->
+            <input type="text" id="symbols" [(ngModel)]="symbols" [matAutocomplete]="auto" #symbolInput>
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let symbol of suggestedSymbols" [value]="symbol">
+                    {{ symbol }}
+                </mat-option>
+            </mat-autocomplete>
+        </div>
+
+        <button class="button" (click)="convertCurrency()">Convert Currency</button>
+
+        <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
     </div>
 
-    <div>
-        <label for="symbols">Symbols (comma-separated):</label>
-        <input type="text" id="symbols" [(ngModel)]="symbols">
-    </div>
-
-    <button (click)="convertCurrency()">Convert Currency</button>
-
-    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-    <div *ngIf="conversionResult">
+    <div class="conversion-results" *ngIf="conversionResult">
         <h3>Conversion Result:</h3>
         <div *ngFor="let rate of conversionResult.rates | keyvalue">
             <p>{{ rate.key }}: {{ rate.value }}</p>
